@@ -1,1 +1,69 @@
-/* code css à faire */
+
+/* --- Menu popover plein écran --- */
+
+/* Le menu occupe toute la largeur et la hauteur de l'écran.
+   On supprime également sa bordure. */
+.menu {
+  width: 100%;
+  height: 100%;
+  border: 0;
+
+  /* Le menu est transparent par défaut */
+  opacity: 0;
+
+  /* Animation de 400 ms, y compris pour les propriétés discrètes */
+  transition: 400ms allow-discrete;
+}
+
+/* Empêche la page de défiler lorsque le menu est ouvert.
+   :has() vérifie si le menu possède l'état :popover-open.
+   overflow: hidden bloque le défilement de la page. */
+html:has(.menu:popover-open) {
+  overflow: hidden;
+}
+
+/* Affiche un curseur en forme de main lorsque
+   l'utilisateur survole les boutons hamburger. */
+.burger {
+  cursor: pointer;
+}
+
+/* Quand le menu popover est ouvert, il devient visible.
+   L'opacité passe de 0 (transparent) à 1 (opaque). */
+.menu:popover-open {
+  opacity: 1;
+}
+
+/* Définit l'opacité initiale du menu à son ouverture.
+   @starting-style permet de déclencher l'animation
+   même lorsque le menu était précédemment masqué. */
+@starting-style {
+  .menu:popover-open {
+    opacity: 0;
+  }
+}
+
+/* Le bouton de fermeture commence sans rotation.
+   @starting-style définit sa position initiale. */
+@starting-style {
+  .menu:popover-open .burger--close {
+    transform: none;
+  }
+}
+
+/* Lorsque le menu est ouvert, le bouton de fermeture
+   effectue une rotation de 90 degrés en 400 ms. */
+.menu:popover-open .burger--close {
+  transform: rotate(90deg);
+  transition: 400ms;
+}
+
+/* Accessibilité : si l'utilisateur préfère réduire
+   les animations, on désactive les transitions
+   du menu et du bouton de fermeture. */
+@media (prefers-reduced-motion: reduce) {
+  .menu,
+  .menu .burger--close {
+    transition: none;
+  }
+}
